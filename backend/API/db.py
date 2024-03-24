@@ -12,6 +12,6 @@ def execute_sql(statement):
     try:
         cursor.execute(statement)
     except mysql.connector.Error as err:
-        return (f"Query returned error: {err.errno}\n"
-              f"{err.msg}")
-    return "Query executed successfully"
+        return {"success": False, "error_number": err.errno, "error_message": err.msg}
+
+    return {"success": True, "result": "Query executed successfully"}

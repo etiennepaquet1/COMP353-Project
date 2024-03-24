@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import backend.API.db as db
@@ -16,7 +16,8 @@ def create(request):
         # add object to database
 
         result = db.execute_sql(query)
-        return HttpResponse(result)
+
+        return JsonResponse(result)
 
     else:
         return HttpResponse(f"wrong method: you are using a  {request.method} request on a POST url")
