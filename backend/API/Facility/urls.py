@@ -16,12 +16,11 @@ Including another URLconf
 """
 from django.urls import path
 
-from backend.API.Person import Person
+from backend.API.Facility import Facility
 
 urlpatterns = [
-    path('create', Person.create),
-    path('update', Person.update),
-    path('get', Person.get),
-    path('delete', Person.delete)
-
+    path('create', Facility.create),
+    path('update', Facility.update),
+    path('delete', Facility.delete),
+    path('get', Facility.get),
 ]

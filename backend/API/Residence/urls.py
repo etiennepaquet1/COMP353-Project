@@ -20,4 +20,7 @@ from backend.API.Residence import Residence
 
 urlpatterns = [
     path('create', Residence.create),
+    path('update', Residence.update),
+    path('delete', Residence.delete),
+    path('get', Residence.get),
 ]
