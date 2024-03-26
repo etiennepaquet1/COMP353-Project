@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.urls import path
 
-from backend.API.Vaccine import Vaccine
+from backend.API.Schedule import Schedule
 
 urlpatterns = [
-    path('create', Vaccine.create),
-    path('update', Vaccine.update),
-    path('delete', Vaccine.delete),
-    path('get', Vaccine.get),
+    path('create', Schedule.create),
+    path('update', Schedule.update),
+    path('delete', Schedule.delete),
+    path('get', Schedule.get),
 ]

@@ -26,5 +26,5 @@ urlpatterns = [
     path('workhistory/', include('API.WorkHistory.urls')),
     path('vaccine/', include('API.Vaccine.urls')),
     path('infection/', include('API.Infection.urls')),
-
+    path('schedule/', include('API.Schedule.urls')),
 ]
