@@ -67,20 +67,23 @@ def delete(request):
 
 @csrf_exempt
 def get(request):
-    if request.method == "GET":
-        body = request.body.decode("utf-8")
-        person = json.loads(body)
-        query = f"SELECT * FROM Person WHERE SSN = {person['SSN']}"
-        result = db.execute_sql(query)
-        tup = result["tuples"][0]
-        response = {
-            "SSN": tup[0]
-        }
-        for (number, field) in enumerate(fields):
-            response[field] = tup[number]
+    try:
+        if request.method == "GET":
+            body = request.body.decode("utf-8")
+            person = json.loads(body)
+            query = f"SELECT * FROM Person WHERE SSN = {person['SSN']}"
+            result = db.execute_sql(query)
+            tup = result["tuples"][0]
+            response = {
+                "SSN": tup[0]
+            }
+            for (number, field) in enumerate(fields):
+                response[field] = tup[number]
 
-        result["objects"] = response
+            result["objects"] = response
 
-        return JsonResponse(result)
-    else:
-        return HttpResponse(f"wrong method: you are using a  {request.method} request on a DELETE url")
+            return JsonResponse(result)
+        else:
+            return HttpResponse(f"wrong method: you are using a  {request.method} request on a DELETE url")
+    except IndexError as ie:
+        return HttpResponse("No results")
