@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import backend.API.db as db
+import backend.API.Utilities as Utilities
 
 fields = 'id', 'typeId', 'date', 'SSN'
 
@@ -25,6 +26,9 @@ def create(request):
         query = query.replace("\'NULL\'", "NULL")
 
         result = db.execute_sql(query)
+        if result['success']:
+            Utilities.handle_create_infection(infection['SSN'])
+
         return JsonResponse(result)
     else:
         return HttpResponse(f"wrong method: you are using a  {request.method} request on a POST url")
