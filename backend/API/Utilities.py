@@ -49,7 +49,7 @@ def handle_create_infection(SSN: str):
         create_email_log(logDate=today.isoformat(),
                          subject=msg['Subject'],
                          body=assignment_removal_body,
-                         sender='facility1',  # hardcoded because we dont know which facility to use for email
+                         sender='City Hospital',  # hardcoded because we dont know which facility to use for email
                          receiver=email)
     except Exception:
         return
@@ -58,7 +58,7 @@ def handle_create_infection(SSN: str):
     query = f'''
     SELECT emailAddress, firstName, lastName FROM Person P
     WHERE P.SSN IN
-    (SELECT S2.SSN FROM schedule S1, schedule S2 
+    (SELECT S2.SSN FROM Schedule S1, Schedule S2 
     WHERE S1.SSN = {SSN}
     AND S1.facilityId = S2.facilityId
     AND S1.scheduleDate = S2.scheduleDate
