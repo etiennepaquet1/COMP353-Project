@@ -277,7 +277,7 @@ def Query_14(request):
             p.firstName,
             p.lastName,
             r.name AS role,
-            COUNT(sr.residenceId) AS num_secondary_residences
+            COUNT(DISTINCT sr.residenceId) AS num_secondary_residences
         FROM 
             Person p
         JOIN Role AS r ON p.roleId = r.id
@@ -286,16 +286,12 @@ def Query_14(request):
         JOIN Schedule AS s ON p.SSN = s.SSN
         JOIN Facility AS f ON s.facilityId = f.id
         WHERE 
-            f.name = {facility_name}
-            AND sr.residenceId IN (
-                SELECT sr2.residenceId 
-                FROM SecondaryResidence sr2
-                GROUP BY sr2.residenceId 
-                HAVING COUNT(sr2.residenceId) >= 3
-            )
+            f.name = '{facility_name}'
             AND s.scheduleDate BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 4 WEEK) AND CURRENT_DATE()
         GROUP BY 
             p.firstName, p.lastName, role
+        HAVING
+            num_secondary_residences >= 3
         ORDER BY 
             role ASC, num_secondary_residences ASC;
         """
@@ -315,40 +311,30 @@ def Query_14(request):
 @csrf_exempt
 def Query_15(request):
     if request.method == "GET":
+        body = request.body.decode("utf-8")
+        facility_name = json.loads(body)
         sql_query = f"""
         SELECT 
             p.firstName,
             p.lastName,
-            MIN(wh.start) AS first_day_of_work_as_nurse,
-            p.dateOfBirth,
-            p.emailAddress,
-            COUNT(i.id) AS total_times_infected,
-            COUNT(v.typeId) AS total_vaccines_received,
-            SUM(TIMESTAMPDIFF(HOUR, s.startAt, s.endAt)) AS total_hours_scheduled,
-            COUNT(sr.residenceId) AS total_secondary_residences
+            r.name AS role,
+            COUNT(DISTINCT sr.residenceId) AS num_secondary_residences
         FROM 
             Person p
-        JOIN Role AS ro ON p.roleId = ro.id
+        JOIN Role AS r ON p.roleId = r.id
+        JOIN SecondaryResidence AS sr ON p.SSN = sr.SSN
         JOIN WorkHistory AS wh ON p.SSN = wh.SSN
         JOIN Schedule AS s ON p.SSN = s.SSN
-        LEFT JOIN Infection AS i ON p.SSN = i.SSN
-        LEFT JOIN Vaccine AS v ON p.SSN = v.SSN
-        LEFT JOIN SecondaryResidence AS sr ON p.SSN = sr.SSN
+        JOIN Facility AS f ON s.facilityId = f.id
         WHERE 
-            ro.name = 'Nurse'
-            AND wh.facilityId IN (
-                SELECT SSN
-                FROM WorkHistory
-                GROUP BY SSN
-                HAVING COUNT(DISTINCT facilityId) >= 2
-            )
-            AND i.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 WEEK)
+            f.name = '{facility_name}'
+            AND s.scheduleDate BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 4 WEEK) AND CURRENT_DATE()
         GROUP BY 
-            p.SSN
+            p.firstName, p.lastName, role
+        HAVING
+            num_secondary_residences >= 3
         ORDER BY 
-            first_day_of_work_as_nurse ASC,
-            p.firstName ASC,
-            p.lastName ASC;
+            role ASC, num_secondary_residences ASC;
         """
 
         # for testing purposes
@@ -414,7 +400,7 @@ def Query_18(request):
             LEFT JOIN Infection AS i ON wh.SSN = i.SSN
             LEFT JOIN Schedule AS s ON f.id = s.facilityId
         WHERE 
-            s.scheduleDate BETWEEN {req_body['startAt']} AND {req_body['endAt']}
+            s.scheduleDate BETWEEN '{req_body['startAt']}' AND '{req_body['endAt']}'
         GROUP BY 
             f.province
         ORDER BY 
