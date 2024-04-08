@@ -54,12 +54,11 @@ export default function InfectionOperations(){
             
         }else if(op === Operation.READ_SUBMIT){
 
-            const url = "http://127.0.0.1:8000/vaccine/get"
+            const url = "http://127.0.0.1:8000/infection/get"
 
             const config = {
                 params:{
-                    SSN: ssn,
-                    doseIteration: 1
+                    id: id,
                 }
             }
 
@@ -139,41 +138,21 @@ export default function InfectionOperations(){
             )}/>}
 
 
-            {op===Operation.READ && <Modal title="Get a Facility" unsetModal={()=>setOp(Operation.UNSELECTED)}  children={(
+            {op===Operation.READ && <Modal title="Get a Infection" unsetModal={()=>setOp(Operation.UNSELECTED)}  children={(
             
                 <div>
 
-                    <label htmlFor="">SSN: </label>
+                    <label htmlFor="">ID: </label>
                     <input
                         type="text"
                         id="vaxId"
                         autoComplete="off"
                         required
-                        onChange={(e)=>{setSSN(Number(e.target.value))}}
+                        onChange={(e)=>{setId(Number(e.target.value))}}
                     />
                     <br/>
 
-                    <label htmlFor="">type id: </label>
-                    <input
-                        type="text"
-                        id="type"
-                        autoComplete="off"
-                        required
-                        onChange={(e)=>{setType(Number(e.target.value))}}
-                    />
-                    <br/>
-
-                    <label htmlFor="">startAt: </label>
-                    <input
-                        type="text"
-                        id="type"
-                        autoComplete="off"
-                        required
-                        onChange={(e)=>{setType(Number(e.target.value))}}
-                    />
-                    <br/>
-
-                    <label htmlFor="">endAt: </label>
+                    <label htmlFor="">doseIteration: </label>
                     <input
                         type="text"
                         id="type"
