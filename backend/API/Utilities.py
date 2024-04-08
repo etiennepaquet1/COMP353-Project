@@ -33,7 +33,7 @@ def handle_create_infection(SSN: str):
 
     # delete every schedule in the next 2 weeks
     query = f"DELETE FROM schedule S WHERE S.SSN = {SSN} AND '{today.isoformat()}' <= S.scheduleDate AND S.scheduleDate < '{two_weeks_future.isoformat()}'"
-    result = db.execute_sql(query)
+    # result = db.execute_sql(query)
 
     # send email to employee indicating removal of assignment
     assignment_removal_body = 'To whom it may concern,\n' \

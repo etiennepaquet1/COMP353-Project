@@ -18,7 +18,7 @@ def create(request):
             if not facility.get(field):
                 facility[field] = "NULL"
 
-        query = f"INSERT INTO facility(typeId, managerId , name, address, city, province, postalCode, phoneNumber, webAddress, capacity)" \
+        query = f"INSERT INTO Facility(typeId, managerId , name, address, city, province, postalCode, phoneNumber, webAddress, capacity)" \
                 f"VALUES({facility['typeId']}, {facility['managerId']}, '{facility['name']}', " \
                 f"'{facility['address']}', '{facility['city']}', '{facility['province']}', '{facility['postalCode']}', {facility['phoneNumber']}," \
                 f"'{facility['webAddress']}', {facility['capacity']})"
@@ -36,7 +36,7 @@ def update(request):
     if request.method == "PUT":
         body = request.body.decode("utf-8")
         facility = json.loads(body)
-        query = "UPDATE facility SET "
+        query = "UPDATE Facility SET "
         for field in facility:
             if field == 'id':
                 continue
@@ -57,7 +57,7 @@ def delete(request):
     if request.method == "DELETE":
         body = request.body.decode("utf-8")
         facility = json.loads(body)
-        query = f"DELETE FROM facility WHERE id = {facility['id']}"
+        query = f"DELETE FROM Facility WHERE id = {facility['id']}"
         result = db.execute_sql(query)
         return JsonResponse(result)
     else:
@@ -69,7 +69,7 @@ def get(request):
         if request.method == "GET":
             body = request.body.decode("utf-8")
             facility = json.loads(body)
-            query = f"SELECT * FROM facility WHERE id = {facility['id']}"
+            query = f"SELECT * FROM Facility WHERE id = {facility['id']}"
             result = db.execute_sql(query)
             tup = result["tuples"][0]
             response = {
