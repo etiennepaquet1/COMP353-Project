@@ -89,12 +89,11 @@ export default function InfectionOperations(){
                 <div className={style["createBox"]}>
 
                     <div className={style['dropdown']}>
-                        <div className={style['dropDiv']} onClick={()=>{setTypeEmpty(true)}}>Facility Type</div>
+                        <div className={style['dropDiv']} onClick={()=>{setTypeEmpty(true)}}>Infection Type</div>
                         {typeEmpty && <div className={style['dropContent']}>
-                            <div onClick={()=>{setType(1); setTypeEmpty(false)}}>apartment</div>
-                            <div onClick={()=>{setType(2); setTypeEmpty(false)}}>condominium</div>
-                            <div onClick={()=>{setType(3); setTypeEmpty(false)}}>semi-detached house</div>
-                            <div onClick={()=>{setType(4); setTypeEmpty(false)}}>detached house</div>
+                            <div onClick={()=>{setType(1); setTypeEmpty(false)}}>COVID-19</div>
+                            <div onClick={()=>{setType(2); setTypeEmpty(false)}}>SARS COV2 Variant</div>
+                            <div onClick={()=>{setType(3); setTypeEmpty(false)}}>Common Cold</div>
                         </div>}
                     </div>
 
@@ -105,16 +104,6 @@ export default function InfectionOperations(){
                         autoComplete="off"
                         required
                         onChange={(e)=>{setSSN(Number(e.target.value))}}
-                    />
-                    <br/>
-
-                    <label htmlFor="">ID: </label>
-                    <input
-                        type="text"
-                        id="infectionId"
-                        autoComplete="off"
-                        required
-                        onChange={(e)=>{setId(Number(e.target.value))}}
                     />
                     <br/>
 
