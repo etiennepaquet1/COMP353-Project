@@ -65,9 +65,10 @@ def delete(request):
 def get(request):
     try:
         if request.method == "GET":
-            body = request.body.decode("utf-8")
-            vaccine = json.loads(body)
-            query = f"SELECT * FROM Vaccine WHERE SSN = {vaccine['SSN']} AND doseIteration = {vaccine['doseIteration']}"
+            ssn = request.GET.get("SSN")
+            doseIteration = request.GET.get("doseIteration")
+            #vaccine = json.loads(body)
+            query = f"SELECT * FROM Vaccine WHERE SSN = {ssn} AND doseIteration = {doseIteration}"
             result = db.execute_sql(query)
             tup = result["tuples"][0]
             response = {}

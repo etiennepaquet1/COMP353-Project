@@ -17,7 +17,7 @@ def create(request):
         for field in fields:
             if not facility.get(field):
                 facility[field] = "NULL"
-
+        print(facility)
         query = f"INSERT INTO Facility(typeId, managerId , name, address, city, province, postalCode, phoneNumber, webAddress, capacity)" \
                 f"VALUES({facility['typeId']}, {facility['managerId']}, '{facility['name']}', " \
                 f"'{facility['address']}', '{facility['city']}', '{facility['province']}', '{facility['postalCode']}', {facility['phoneNumber']}," \
@@ -67,9 +67,9 @@ def delete(request):
 def get(request):
     try:
         if request.method == "GET":
-            body = request.body.decode("utf-8")
-            facility = json.loads(body)
-            query = f"SELECT * FROM Facility WHERE id = {facility['id']}"
+            id = request.GET.get("id")
+            #facility = json.loads(body)
+            query = f"SELECT * FROM Facility WHERE id = {id}"
             result = db.execute_sql(query)
             tup = result["tuples"][0]
             response = {

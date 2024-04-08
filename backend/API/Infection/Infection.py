@@ -69,9 +69,9 @@ def delete(request):
 def get(request):
     try:
         if request.method == "GET":
-            body = request.body.decode("utf-8")
-            infection = json.loads(body)
-            query = f"SELECT * FROM Infection WHERE id = {infection['id']}"
+            id = request.GET.get("id")
+            #infection = json.loads(body)
+            query = f"SELECT * FROM Infection WHERE id = {id}"
             result = db.execute_sql(query)
 
             if len(result["tuples"]) == 0:
