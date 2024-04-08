@@ -155,7 +155,7 @@ export default function InfectionOperations(){
 
                     <Button onClick={()=>{setOp(Operation.READ_SUBMIT);}} children={"Read"} /> 
 
-                    {qResponse}
+                    
 
                 </div>
 
@@ -253,6 +253,8 @@ export default function InfectionOperations(){
                     </div>
                 
             )}/>}
+
+{qResponse}
         
         </div>
     );
