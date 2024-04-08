@@ -15,6 +15,7 @@ import { useState } from 'react';
 import Modal from "./Templates/Modal/Modal"
 import Button from './Templates/Button/Button';
 import Linker from './Templates/Linker/Linker';
+import Queries from './Queries/Queries';
 
 
 
@@ -39,7 +40,7 @@ function App() {
           <Linker path="vax">Vax CRUD</Linker>
           <Linker path="infection">Infections CRUD</Linker>
           <Linker path="person">Person CRUD</Linker>
-          <Linker path="/">Queries</Linker>
+          <Linker path="queries">Queries</Linker>
         </div>
         <Routes>
           <Route path="/" element={<Menu />} />
@@ -49,6 +50,7 @@ function App() {
           <Route path='vax' element={<VaxOperations/>}/>
           <Route path='infection' element={<InfectionOperations/>}/>
           <Route path='person' element={<PersonOperations/>}/>
+          <Route path='queries' element={<Queries/>}/>
         </Routes>
       </BrowserRouter >
 
