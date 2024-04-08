@@ -319,32 +319,28 @@ def Query_15(request):
         SELECT 
             p.firstName,
             p.lastName,
-            MIN(wh.start) AS first_day_of_work_as_nurse,
+            MIN(s.scheduleDate) AS first_day_of_work_as_nurse,
             p.dateOfBirth,
             p.emailAddress,
-            COUNT(i.id) AS total_times_infected,
-            COUNT(v.typeId) AS total_vaccines_received,
-            SUM(TIMESTAMPDIFF(HOUR, s.startAt, s.endAt)) AS total_hours_scheduled,
-            COUNT(sr.residenceId) AS total_secondary_residences
+            COUNT(DISTINCT i.id) AS total_times_infected,
+            COUNT(DISTINCT v.typeId) AS total_vaccines_received,
+            SUM(DISTINCT TIMESTAMPDIFF(HOUR, s.startAt, s.endAt)) AS total_hours_scheduled,
+            COUNT(DISTINCT sr.residenceId) AS total_secondary_residences
         FROM 
             Person p
         JOIN Role AS ro ON p.roleId = ro.id
-        JOIN WorkHistory AS wh ON p.SSN = wh.SSN
         JOIN Schedule AS s ON p.SSN = s.SSN
         LEFT JOIN Infection AS i ON p.SSN = i.SSN
         LEFT JOIN Vaccine AS v ON p.SSN = v.SSN
         LEFT JOIN SecondaryResidence AS sr ON p.SSN = sr.SSN
         WHERE 
             ro.name = 'Nurse'
-            AND wh.facilityId IN (
-                SELECT SSN
-                FROM WorkHistory
-                GROUP BY SSN
-                HAVING COUNT(DISTINCT facilityId) >= 2
-            )
-            AND i.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 WEEK)
+            AND
+            i.date >= DATE_SUB(CURRENT_DATE(), INTERVAL 2 WEEK)    
         GROUP BY 
             p.SSN
+        HAVING
+            COUNT(DISTINCT s.facilityId) >= 2
         ORDER BY 
             first_day_of_work_as_nurse ASC,
             p.firstName ASC,
