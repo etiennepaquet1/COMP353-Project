@@ -143,7 +143,7 @@ export default function InfectionOperations(){
             
                 <div>
 
-                    <label htmlFor="">Person ID: </label>
+                    <label htmlFor="">SSN: </label>
                     <input
                         type="text"
                         id="vaxId"
@@ -154,6 +154,8 @@ export default function InfectionOperations(){
                     <br/>
 
                     <Button onClick={()=>{setOp(Operation.READ_SUBMIT);}} children={"Read"} /> 
+
+                    {qResponse}
 
                 </div>
 
