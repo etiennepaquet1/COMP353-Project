@@ -27,5 +27,7 @@ urlpatterns = [
     path('vaccine/', include('API.Vaccine.urls')),
     path('infection/', include('API.Infection.urls')),
     path('schedule/', include('API.Schedule.urls')),
+    path('queries/', include('API.Queries.urls')),
+
     # path('emailLog/', include('API.EmailLog.urls')),
 ]

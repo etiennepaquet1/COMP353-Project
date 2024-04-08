@@ -76,7 +76,7 @@ def handle_create_infection(SSN: str):
                 # send warning email to employees
                 warning_body = 'To whom it may concern,\n' \
                                           f'One of your colleagues with whom you worked in the past two weeks has been infected with COVID-19. Please take the appropriate precautions.'
-                msg = MIMEText(assignment_removal_body)
+                msg = MIMEText(warning_body)
                 msg['Subject'] = 'Warning'
                 msg['From'] = 'HFESTS Administration'
                 msg['To'] = f'{firstName} {lastName}'
@@ -90,21 +90,3 @@ def handle_create_infection(SSN: str):
                                  receiver=email)
             except Exception:
                 return
-
-
-    '''SELECT S2.SSN FROM mainproject.schedule S1, mainproject.schedule S2 
-    WHERE S1.SSN = 444555666
-    AND S1.facilityId = S2.facilityId
-    AND S1.scheduleDate = S2.scheduleDate
-    AND (S1.startAt < S2.startAt < S1.endAt OR S2.startAt < S1.startAt < S2.endAt)
-    
-    
-    
-    SELECT emailAddress from Person P
-    WHERE P.SSN IN
-    (SELECT S2.SSN FROM mainproject.schedule S1, mainproject.schedule S2 
-    WHERE S1.SSN = 444555666
-    AND S1.facilityId = S2.facilityId
-    AND S1.scheduleDate = S2.scheduleDate
-    AND (S1.startAt < S2.startAt < S1.endAt OR S2.startAt < S1.startAt < S2.endAt))
-    '''

@@ -1,9 +1,9 @@
 import mysql.connector
 db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="root",
-    database="mainproject",
+    host="sjc353.encs.concordia.ca",
+    user="sjc353_4",
+    password="P4ssw0rd1",
+    database="sjc353_4",
     autocommit=True
 )
 cursor = db.cursor()

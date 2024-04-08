@@ -54,10 +54,10 @@ def Query_9(request):
         body = request.body.decode("utf-8")
         facility_name = json.loads(body)
         sql_query = f"""
-        SELECT 
+            SELECT 
             p.firstName,
             p.lastName,
-            wh.start AS start_date_of_work,
+            s.scheduleDate AS start_date_of_work,
             p.dateOfBirth,
             p.medicareNumber,
             p.telephoneNumber,
@@ -70,11 +70,11 @@ def Query_9(request):
             COUNT(sr.residenceId) AS number_of_secondary_residences
         FROM 
             Person p
-            JOIN WorkHistory wh ON p.SSN = wh.SSN
-            JOIN Facility f ON wh.facilityId = f.id
+            JOIN Schedule s ON p.SSN = s.SSN
+            JOIN Facility f ON s.facilityId = f.id
             JOIN Residence r ON p.primaryResidenceId = r.id
             LEFT JOIN SecondaryResidence sr ON p.SSN = sr.SSN
-        WHERE f.name = {facility_name}
+        WHERE f.name = '{facility_name}'
         GROUP BY 
             p.SSN
         HAVING number_of_secondary_residences >= 1
@@ -112,7 +112,7 @@ def Query_10(request):
         FROM 
             Schedule AS s
             JOIN Facility AS f ON s.facilityId = f.id
-        WHERE s.SSN = {req_body['SSN']} AND s.scheduleDate BETWEEN {req_body['startAt']} AND {req_body['endAt']}
+        WHERE s.SSN = '{req_body['SSN']}' AND s.scheduleDate BETWEEN '{req_body['startAt']}' AND '{req_body['endAt']}'
         ORDER BY 
             f.name ASC, DAYOFYEAR(s.scheduleDate) ASC, s.startAt ASC;
         """
@@ -136,7 +136,7 @@ def Query_11(request):
         body = request.body.decode("utf-8")
         ssn = json.loads(body)
         sql_query = f"""
-        SELECT 
+SELECT 
             rt.name AS residence_type,
             p.firstName,
             p.lastName,
@@ -149,7 +149,7 @@ def Query_11(request):
             JOIN Relationship AS re ON p.SSN = re.SSN
             JOIN `Role` AS ro ON p.roleId = ro.id
         WHERE 
-            re.SSN = {ssn}
+            re.employeeSSN = '352132154'
         UNION
         SELECT 
             rt2.name AS residence_type,
@@ -165,7 +165,7 @@ def Query_11(request):
             JOIN Relationship AS re2 ON p2.SSN = re2.SSN
             JOIN Role AS ro2 ON p2.roleId = ro2.id
         WHERE 
-            re2.SSN = {ssn};
+            re2.employeeSSN = '{ssn}';
         """
 
         # for testing purposes
