@@ -69,9 +69,9 @@ def delete(request):
 def get(request):
     try:
         if request.method == "GET":
-            body = request.body.decode("utf-8")
-            person = json.loads(body)
-            query = f"SELECT * FROM Person WHERE SSN = {person['SSN']}"
+            SSN = request.GET.get("SSN")
+            #person = json.loads(body)
+            query = f"SELECT * FROM Person WHERE SSN = {SSN}"
             result = db.execute_sql(query)
             tup = result["tuples"][0]
             response = {

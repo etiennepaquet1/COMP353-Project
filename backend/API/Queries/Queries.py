@@ -51,8 +51,8 @@ def Query_8(request):
 @csrf_exempt
 def Query_9(request):
     if request.method == "GET":
-        body = request.body.decode("utf-8")
-        facility_name = json.loads(body)
+        facility_name = request.GET.get("facility_name")
+        #facility_name = json.loads(body)
         sql_query = f"""
             SELECT 
             p.firstName,
@@ -95,13 +95,16 @@ def Query_10(request):
     if request.method == "GET":
         # define needed fields
         fields = 'SSN', 'startAt', 'endAt'
-        body = request.body.decode("utf-8")
-        req_body = json.loads(body)
+        SSN = request.GET.get("SSN")
+        startAt = request.GET.get("startAt")
+        endAt = request.GET.get("endAt")
+        #req_body = json.loads(body)
+        req_body = [SSN, startAt, endAt]
 
         # find null fields and replace them with NULL
-        for field in fields:
-            if not req_body.get(field):
-                req_body[field] = "NULL"
+        #for field in fields:
+        #    if not req_body.get(field):
+        #        req_body[field] = "NULL"
 
         sql_query = f"""
         SELECT 
@@ -112,7 +115,7 @@ def Query_10(request):
         FROM 
             Schedule AS s
             JOIN Facility AS f ON s.facilityId = f.id
-        WHERE s.SSN = '{req_body['SSN']}' AND s.scheduleDate BETWEEN '{req_body['startAt']}' AND '{req_body['endAt']}'
+        WHERE s.SSN = '{SSN}' AND s.scheduleDate BETWEEN '{startAt}' AND '{endAt}'
         ORDER BY 
             f.name ASC, DAYOFYEAR(s.scheduleDate) ASC, s.startAt ASC;
         """
@@ -133,8 +136,9 @@ def Query_10(request):
 @csrf_exempt
 def Query_11(request):
     if request.method == "GET":
-        body = request.body.decode("utf-8")
-        ssn = json.loads(body)
+        ssn = request.GET.get("ssn")
+        #= request.body.decode("utf-8")
+        #ssn = json.loads(body)
         sql_query = f"""
 SELECT 
             rt.name AS residence_type,
@@ -228,13 +232,16 @@ def Query_13(request):
     if request.method == "GET":
         # define needed fields
         fields = 'name', 'startAt', 'endAt'
-        body = request.body.decode("utf-8")
-        req_body = json.loads(body)
+        name = request.GET.get("name"),
+        startAt = request.GET.get("startAt")
+        endAt = request.GET.get("endAt")
+        #body = request.body.decode("utf-8")
+        #req_body = json.loads(body)
 
         # find null fields and replace them with NULL
-        for field in fields:
-            if not req_body.get(field):
-                req_body[field] = "NULL"
+        #for field in fields:
+        #    if not req_body.get(field):
+        #        req_body[field] = "NULL"
 
         sql_query = f"""
         SELECT 
@@ -248,8 +255,8 @@ def Query_13(request):
             EmailLog as el
         WHERE 
             el.subject LIKE '%cancellation%' -- Assuming cancellation emails have 'cancellation' in the subject
-            AND logDate BETWEEN {req_body['startAt']} AND {req_body['endAt']}
-            AND sender = '{req_body['name']}'
+            AND logDate BETWEEN {startAt} AND {endAt}
+            AND sender = '{name}'
         ORDER BY 
             email_date DESC;
         """
@@ -269,8 +276,9 @@ def Query_13(request):
 @csrf_exempt
 def Query_14(request):
     if request.method == "GET":
-        body = request.body.decode("utf-8")
-        facility_name = json.loads(body)
+        facility_name = request.GET.get("facility_name")
+        #body = request.body.decode("utf-8")
+        #facility_name = json.loads(body)
 
         sql_query = f"""
         SELECT 
@@ -383,13 +391,15 @@ def Query_18(request):
     if request.method == "GET":
         # define needed fields
         fields = 'startAt', 'endAt'
-        body = request.body.decode("utf-8")
-        req_body = json.loads(body)
+        startAt = request.GET.get("startAt")
+        endAt = request.GET.get("endAt")
+        #body = request.body.decode("utf-8")
+        #req_body = json.loads(body)
 
         # find null fields and replace them with NULL
-        for field in fields:
-            if not req_body.get(field):
-                req_body[field] = "NULL"
+        #for field in fields:
+        #    if not req_body.get(field):
+        #        req_body[field] = "NULL"
 
         sql_query = f"""
         SELECT 
@@ -405,7 +415,7 @@ def Query_18(request):
             LEFT JOIN Infection AS i ON wh.SSN = i.SSN
             LEFT JOIN Schedule AS s ON f.id = s.facilityId
         WHERE 
-            s.scheduleDate BETWEEN {req_body['startAt']} AND {req_body['endAt']}
+            s.scheduleDate BETWEEN {startAt} AND {endAt}
         GROUP BY 
             f.province
         ORDER BY 
