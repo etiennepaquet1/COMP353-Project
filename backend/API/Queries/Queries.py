@@ -282,20 +282,15 @@ def Query_14(request):
             Person p
         JOIN Role AS r ON p.roleId = r.id
         JOIN SecondaryResidence AS sr ON p.SSN = sr.SSN
-        JOIN WorkHistory AS wh ON p.SSN = wh.SSN
         JOIN Schedule AS s ON p.SSN = s.SSN
         JOIN Facility AS f ON s.facilityId = f.id
         WHERE 
-            f.name = {facility_name}
-            AND sr.residenceId IN (
-                SELECT sr2.residenceId 
-                FROM SecondaryResidence sr2
-                GROUP BY sr2.residenceId 
-                HAVING COUNT(sr2.residenceId) >= 3
-            )
+            f.name = '{facility_name}'
             AND s.scheduleDate BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 4 WEEK) AND CURRENT_DATE()
         GROUP BY 
             p.firstName, p.lastName, role
+        HAVING
+            num_secondary_residences >= 3
         ORDER BY 
             role ASC, num_secondary_residences ASC;
         """
