@@ -58,7 +58,7 @@ export default function InfectionOperations(){
 
             const config = {
                 params:{
-                    SSN: 444555666,
+                    SSN: ssn,
                     doseIteration: 1
                 }
             }
