@@ -249,7 +249,7 @@ def Query_13(request):
         WHERE 
             el.subject LIKE '%cancellation%' -- Assuming cancellation emails have 'cancellation' in the subject
             AND logDate BETWEEN {req_body['startAt']} AND {req_body['endAt']}
-            AND sender = {req_body['name']}
+            AND sender = '{req_body['name']}'
         ORDER BY 
             email_date DESC;
         """
