@@ -53,6 +53,21 @@ export default function InfectionOperations(){
             setOp(Operation.UNSELECTED);
             
         }else if(op === Operation.READ_SUBMIT){
+
+            const url = "http://127.0.0.1:8000/vaccine/get"
+
+            const config = {
+                params:{
+                    SSN: 444555666,
+                    doseIteration: 1
+                }
+            }
+
+            axios.get(url,config).then((res)=>{
+                const data = res.data.tuples;
+                setQResponse(data);
+            })
+
             id !== undefined && displayInfection(id);
             setOp(Operation.UNSELECTED);
         }else if(op === Operation.UPDATE_SUBMIT){
