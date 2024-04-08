@@ -4,6 +4,7 @@ import { Operation } from "../FacilityOperations/FacilityOperations";
 import style from "../FacilityOperations/FacilityOpeartions.module.css";
 import Button from "../../Templates/Button/Button";
 import Modal from "../../Templates/Modal/Modal";
+import axios from "axios";
 
 export default function InfectionOperations(){
     /*
@@ -17,6 +18,7 @@ export default function InfectionOperations(){
     const [op, setOp] = useState<Operation>(Operation.UNSELECTED);
     const [infection, setInfection] = useState<Infection>();
     const [typeEmpty, setTypeEmpty] = useState<boolean>(true);
+    const [qResponse, setQResponse] = useState<Array<any>>();
 
     /* Person Attributes */
     const [type, setType] = useState<number>();
@@ -33,6 +35,18 @@ export default function InfectionOperations(){
                 typeId: type || 0,
                 date: date,
             }
+
+            const url = 'http://127.0.0.1:8000/infection/create'
+            const config = {
+                SSN: ssn,
+                typeId: type || 1,
+                date: date,
+            }
+
+            axios.post(url,config).then((res)=>{
+                const data = res.data.tuples;
+                setQResponse(data);
+            })
 
             setInfection(value);
             infection !== undefined && createInfection(infection);

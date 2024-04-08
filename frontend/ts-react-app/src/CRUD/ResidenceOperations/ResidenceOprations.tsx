@@ -4,12 +4,14 @@ import { Operation } from "../FacilityOperations/FacilityOperations";
 import style from "../FacilityOperations/FacilityOpeartions.module.css";
 import Button from "../../Templates/Button/Button";
 import Modal from "../../Templates/Modal/Modal";
+import axios from "axios";
 
 export default function ResidenceOperations(){
 
     const [op, setOp] = useState<Operation>(Operation.UNSELECTED);
     const [residence, setResidence] = useState<Residence>();
     const [typeEmpty, setTypeEmpty] = useState<boolean>(true);
+    const [qResponse, setQResponse] = useState<Array<any>>();
 
     /* Residence Attributes */
     const [type, setType] = useState<number>();
@@ -37,10 +39,42 @@ export default function ResidenceOperations(){
             }
 
             setResidence(value);
+
+            const url = "http://127.0.0.1:8000/residence/create";
+            const config= {
+                typeId: 2,//type
+                numberOfBedroom: nbOfBedroom,
+                address: address,
+                city: city,
+                province: province,
+                postalCode: postalCode,
+                phoneNumber: phone,
+            }
+
+            axios.post(url,config).then((res)=>{
+                console.log(res);
+                const data = res.data.tuples;
+                setQResponse(data);
+            })
+
             residence !== undefined && createResidence(residence);
             setOp(Operation.UNSELECTED);
             
         }else if(op === Operation.READ_SUBMIT){
+
+            const url = "http://127.0.0.1:8000/residence/get";
+            const config = {
+                params:{
+                    id: residenceID,
+                },
+            };
+
+            axios.get(url,config).catch((res)=>{
+                console.log(res);
+                const data = res.data.tuples;
+                setQResponse(data);
+            })
+
             residenceID !== undefined && displayResidence(residenceID);
             setOp(Operation.UNSELECTED);
         }else if(op === Operation.UPDATE_SUBMIT){
@@ -56,11 +90,38 @@ export default function ResidenceOperations(){
                 
             }
 
+            const url = "http://127.0.0.1:8000/residence/update";
+            const config= {
+                id: residenceID,
+                typeId: 2,//type
+                numberOfBedroom: nbOfBedroom,
+                address: address,
+                city: city,
+                province: province,
+                postalCode: postalCode,
+                phoneNumber: phone,
+            }
+
+            axios.put(url,config).then((res)=>{
+                console.log(res);
+                const data = res.data.tuples;
+            })
+
             setResidence(value);
             residence !== undefined && updateResidence(residence);
             setOp(Operation.UNSELECTED);
             
         }else if(op === Operation.DELETE_SUBMIT){
+
+            const url = "http://127.0.0.1:8000/residence/delete";
+            const config = {
+                data:{id: residenceID,}
+            };
+            axios.delete(url,config).then((res)=>{
+                const data = res.data.tuples;
+                setQResponse(data);
+            })
+
             residenceID !== undefined && deleteResidence(residenceID)
         }
 
@@ -298,6 +359,8 @@ export default function ResidenceOperations(){
                 </div>
             
             )}/>}
+
+            {qResponse}
         
         </div>
     );
