@@ -97,7 +97,7 @@ export default function FacilityOperations() {
                 city,
                 province,
                 postalCode,
-                phone,
+                phoneNumber: phone,
                 webAddress,
             }
 
@@ -140,7 +140,37 @@ export default function FacilityOperations() {
             setStateQuery(Operation.UNSELECTED);
 
         } else if (stateQuery === Operation.UPDATE) {
+            const url = "http://127.0.0.1:8000/facility/update"
+            const config = {
+                id: facilityID,
+                typeId: 2,
+                managerId: 123456789,
+                name,
+                address,
+                city,
+                province,
+                postalCode,
+                phoneNumber: phone,
+                webAddress,
+            }
 
+            axios.put(url, config).then((response) => {
+                console.log(response);
+            })
+
+            setStateQuery(Operation.UNSELECTED);
+
+        } else if (stateQuery === Operation.DELETE){
+            const url = "http://127.0.0.1:8000/facility/delete"
+            const config = {
+                data:{id: facilityID,}
+            };
+
+            axios.delete(url, config).then((response) => {
+                console.log(response);
+            })
+
+            setStateQuery(Operation.UNSELECTED);
         }
 
     }, [stateQuery])
