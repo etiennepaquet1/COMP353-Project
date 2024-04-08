@@ -153,6 +153,36 @@ export default function InfectionOperations(){
                     />
                     <br/>
 
+                    <label htmlFor="">type id: </label>
+                    <input
+                        type="text"
+                        id="type"
+                        autoComplete="off"
+                        required
+                        onChange={(e)=>{setType(Number(e.target.value))}}
+                    />
+                    <br/>
+
+                    <label htmlFor="">startAt: </label>
+                    <input
+                        type="text"
+                        id="type"
+                        autoComplete="off"
+                        required
+                        onChange={(e)=>{setType(Number(e.target.value))}}
+                    />
+                    <br/>
+
+                    <label htmlFor="">endAt: </label>
+                    <input
+                        type="text"
+                        id="type"
+                        autoComplete="off"
+                        required
+                        onChange={(e)=>{setType(Number(e.target.value))}}
+                    />
+                    <br/>
+
                     <Button onClick={()=>{setOp(Operation.READ_SUBMIT);}} children={"Read"} /> 
 
                     
