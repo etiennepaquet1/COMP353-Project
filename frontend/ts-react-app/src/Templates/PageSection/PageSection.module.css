@@ -1,0 +1,25 @@
+/* PageSection.module.css */
+
+.Wrapper {
+    margin-bottom: 30px; /* Increased margin */
+}
+  
+.PageSection {
+    background-color: #FBD8AD; /* Light brown */
+    padding: 30px; /* Increased padding */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slightly darker shadow */
+}
+  
+.PageSection h2 {
+    margin-top: 0;
+    margin-bottom: 20px; /* Increased margin */
+    color: #211C1A; /* Dark brown */
+    font-size: 24px; /* Increased font size */
+}
+  
+.PageSection p {
+    color: #736151; /* Dark grey */
+    font-size: 16px; /* Increased font size */
+    line-height: 1.5; /* Improved readability */
+}

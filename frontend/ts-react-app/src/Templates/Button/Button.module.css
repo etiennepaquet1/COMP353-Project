@@ -1,0 +1,22 @@
+/* Button.module.css */
+
+.Button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0099ff; /* Vintage Orange */
+    color: #FBD8AD; /* Creamy White */
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Button:hover {
+    background-color: #736151; /* Dark Vintage Gray */
+}
+
+.Button:active {
+    background-color: #B2A088; /* Light Vintage Gray When Clicked */
+}
